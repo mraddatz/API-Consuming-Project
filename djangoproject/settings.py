@@ -54,7 +54,7 @@ ROOT_URLCONF = 'djangoproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['rickmortyapp/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
