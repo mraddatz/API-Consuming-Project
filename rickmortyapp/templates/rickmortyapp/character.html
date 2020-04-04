@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Character: </h1>
+    <h2>Name: {{character.name}}</h2>
+    <img src={{character.image}} alt="Italian Trulli">
+    <p>Status: {{character.status}}</p>
+    <p>Species: {{character.species}}</p>
+    <p>Type: {{character.type}}</p>
+    <p>Gender: {{character.gender}}</p>
+    {% if character.origin.name == 'unknown' %}
+        <p>Origin: {{character.origin.name}}</p>
+    {% else %}
+        <p>Origin: <a href="{% url 'location' character.origin.id %}">{{character.origin.name}}</a></p>
+    {% endif %}
+
+
+    {% if character.location.name == 'unknown' %}
+    <p>Location: {{character.location.name}}</p>
+    {% else %}
+    <p>Location: <a href="{% url 'location' character.location.id %}">{{character.location.name}}</a></p>
+    {% endif %}
+
+
+    <h2>Episodes:</h2>
+    <ul>
+        {% for episode in episodes %}
+            <li>
+                <a href="{% url 'episode' episode.id %}">{{episode.name}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
