@@ -24,6 +24,15 @@
         </style>
 </head>
 <body>
+    <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        Buscar por Nombre: 
+        <input  type="search" placeholder="Buscar..." name="search">
+        <button type="submit">
+        Buscar
+        </button>
+      </form>
+
     <h2>All Episodes</h2>
 
     <table>

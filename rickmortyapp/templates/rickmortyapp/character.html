@@ -7,6 +7,19 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        Buscar por Nombre: 
+        <input  type="search" placeholder="Buscar..." name="search">
+        <button type="submit">
+        Buscar
+        </button>
+    </form>
+    <p>
+        <a href="{% url 'index'%}">
+            HOME
+        </a>
+    </p>
     <h1>Character: </h1>
     <h2>Name: {{character.name}}</h2>
     <img src={{character.image}} alt="Italian Trulli">
@@ -36,5 +49,7 @@
             </li>
         {% endfor %}
     </ul>
+
+
 </body>
 </html>

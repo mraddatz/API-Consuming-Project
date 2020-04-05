@@ -7,6 +7,19 @@
     <title>Episode</title>
 </head>
 <body>
+    <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        Buscar por Nombre: 
+        <input  type="search" placeholder="Buscar..." name="search">
+        <button type="submit">
+        Buscar
+        </button>
+    </form>
+    <p>
+        <a href="{% url 'index'%}">
+            HOME
+        </a>
+    </p>
     <h1>Episode: </h1>
     <h2>Name: {{episode.name}}</h2>
 
@@ -22,5 +35,7 @@
             </li>
         {% endfor %}
     </ul>
+
+
 </body>
 </html>
