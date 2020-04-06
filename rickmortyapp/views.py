@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import requests
 
+API_URL = 'https://integracion-rick-morty-api.herokuapp.com/api/'
+
 def url_id(url, id_num=""):
   if url[-1] == "/":
     return id_num
@@ -9,7 +11,7 @@ def url_id(url, id_num=""):
     return url_id(url[0:-1], url[-1]+id_num)
 
 def name_search(search_type, search_string):
-    request_link = 'https://rickandmortyapi.com/api/' + search_type + '/?name=' + search_string
+    request_link = API_URL + search_type + '/?name=' + search_string
     response_dic = requests.get(request_link).json()
     if 'error' in response_dic.keys():
         return []
@@ -25,9 +27,7 @@ def name_search(search_type, search_string):
 
 
 def index(request):
-    #https://rickandmortyapi.com/api/episode/
-
-    response = requests.get('https://rickandmortyapi.com/api/episode/')
+    response = requests.get(API_URL + 'episode/')
     if response:
         response_dic = response.json()
         pages = response_dic['info']['pages']
@@ -64,10 +64,10 @@ def index(request):
     return render(request, 'rickmortyapp/home.html', data)
 
 def episode(request, episode_id):
-    request_link = 'https://rickandmortyapi.com/api/episode/'+ str(episode_id)
+    request_link = API_URL + 'episode/'+ str(episode_id)
     response = requests.get(request_link).json()
     characters_links = response['characters']
-    characters_link = 'https://rickandmortyapi.com/api/character/'
+    characters_link = API_URL + 'character/'
     characters_id = ""
     for res in characters_links:
         if not characters_id:
@@ -84,10 +84,10 @@ def episode(request, episode_id):
     return render(request, 'rickmortyapp/episode.html', data)
 
 def character(request, character_id):
-    request_link = 'https://rickandmortyapi.com/api/character/'+ str(character_id)
+    request_link = API_URL + 'character/'+ str(character_id)
     character = requests.get(request_link).json()
     episodes_links = character['episode']
-    episode_link = 'https://rickandmortyapi.com/api/episode/'
+    episode_link = API_URL + 'episode/'
     episodes_id = ""
 
     for epi in episodes_links:
@@ -112,20 +112,26 @@ def character(request, character_id):
     return render(request, 'rickmortyapp/character.html', data)
 
 def location(request, location_id):
-    request_link = 'https://rickandmortyapi.com/api/location/'+ str(location_id)
+    request_link = API_URL + 'location/'+ str(location_id)
     location = requests.get(request_link).json()
     residents_links = location['residents']
-    characters_link = 'https://rickandmortyapi.com/api/character/'
+    characters_link = API_URL + 'character/'
     residents_id = ""
+    print("SE VIENE RES LINKS")
     for res in residents_links:
+        print(res)
         if not residents_id:
             residents_id = residents_id + url_id(res)
         else:
             residents_id = residents_id + "," + url_id(res)
-    residents = requests.get(characters_link + residents_id).json()
+    if residents_id:
+        residents = requests.get(characters_link + residents_id).json()
+    else:
+        residents = []
     if type(residents) == dict:
         residents = [residents]
-
+    print("RESIDENTSS")
+    print(residents)
     data = {
         'location': location,
         'residents': residents,
